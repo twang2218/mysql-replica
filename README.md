@@ -22,8 +22,9 @@ services:
     master:
         image: twang2218/mysql:5.7-replica
         build: .
+        restart: unless-stopped
         ports:
-            - "3306:3306"
+            - 3306:3306
         environment:
             - MYSQL_ROOT_PASSWORD=master_passw0rd
             - MYSQL_REPLICA_USER=replica
@@ -31,8 +32,10 @@ services:
         command: ["mysqld", "--log-bin=mysql-bin", "--server-id=1"]
     slave:
         image: twang2218/mysql:5.7-replica
+        build: .
+        restart: unless-stopped
         ports:
-            - "3307:3306"
+            - 3307:3306
         environment:
             - MYSQL_ROOT_PASSWORD=slave_passw0rd
             - MYSQL_REPLICA_USER=replica
