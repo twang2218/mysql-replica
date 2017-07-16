@@ -21,7 +21,6 @@ version: '2'
 services:
     master:
         image: twang2218/mysql:5.7-replica
-        build: .
         restart: unless-stopped
         ports:
             - 3306:3306
@@ -32,7 +31,6 @@ services:
         command: ["mysqld", "--log-bin=mysql-bin", "--server-id=1"]
     slave:
         image: twang2218/mysql:5.7-replica
-        build: .
         restart: unless-stopped
         ports:
             - 3307:3306
