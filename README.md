@@ -14,7 +14,23 @@ To implement the MySQL replication, I borrowed the code from PR: docker-library/
 
 The `Dockerfile` is very simple, just copied `replica.sh` to `/docker-entrypoint-initdb.d/` directory. That's it.
 
-Let's use the new MySQL image with replication ability. To do that, I created a simple `docker-compose.yml` file:
+> The reason why I create a new Docker image here, instead of mount the file directly into container during the runtime, is that, it's not easy to maintain the updated file across the cluster. Put it into the Docker image is best way to handle such static config file in cluster environment.
+
+To build the image just:
+
+```bash
+docker build -t twang2218/mysql:5.7-replica .
+```
+
+*Replace `twang2218` with your docker username*
+
+Then push the image to the Docker Hub, so it can be used across cluster.
+
+```bash
+docker push twang2218/mysql:5.7-replica
+```
+
+Then, let's use the new MySQL image with replication ability. To do that, I created a simple `docker-compose.yml` file:
 
 ```yaml
 version: '2'
